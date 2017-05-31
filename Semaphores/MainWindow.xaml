@@ -14,10 +14,12 @@
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
         FontFamily="{DynamicResource MaterialDesignFont}"
-        Title="MainWindow" Height="350" Width="525" d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
+        Title="Semaphores Example" Height="350" Width="525" d:DataContext="{d:DesignInstance viewModels:MainViewModel}">
     <Grid>
-        <DataGrid ItemsSource="{Binding Data}" AutoGenerateColumns="True">
-            
-        </DataGrid>
+        <materialDesign:Card Padding="0" Margin="16">
+            <DataGrid ItemsSource="{Binding Data}" AutoGenerateColumns="True">
+
+            </DataGrid>
+        </materialDesign:Card>
     </Grid>
 </Window>

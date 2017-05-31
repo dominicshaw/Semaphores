@@ -12,18 +12,23 @@ namespace Semaphores.Workers
         private readonly Timer _poller;
 
         private readonly ObservableCollection<DataItem> _data;
+        private readonly SemaphoreSlim _semaphore;
 
-        public Consumer(Repository repository, ObservableCollection<DataItem> data)
+        public Consumer(Repository repository, ObservableCollection<DataItem> data, SemaphoreSlim semaphore)
         {
             _repository = repository;
-            _data = data;
-            _poller = new Timer(x => Poll(), null, TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
+            _data       = data;
+            _semaphore  = semaphore;
+
+            _poller     = new Timer(x => Poll(), null, TimeSpan.FromMilliseconds(1000), Timeout.InfiniteTimeSpan);
         }
 
         private void Poll()
         {
             try
             {
+                _semaphore.Wait();
+
                 var newData = _repository.GetData();
 
                 foreach (var d in newData)
@@ -39,7 +44,8 @@ namespace Semaphores.Workers
             }
             finally
             {
-                _poller.Change(TimeSpan.FromSeconds(1), Timeout.InfiniteTimeSpan);
+                _poller.Change(TimeSpan.FromMilliseconds(100), Timeout.InfiniteTimeSpan);
+                _semaphore.Release();
             }
         }
 

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Threading;
 using Semaphores.Models;
 using Semaphores.Workers;
 
@@ -19,8 +20,10 @@ namespace Semaphores.ViewModels
 
             var repository = new Repository(data);
 
-            _producer = new Producer(data);
-            _consumer = new Consumer(repository, Data);
+            var semaphore = new SemaphoreSlim(1, 1);
+
+            _producer = new Producer(data, semaphore);
+            _consumer = new Consumer(repository, Data, semaphore);
         }
 
         public void Dispose()
