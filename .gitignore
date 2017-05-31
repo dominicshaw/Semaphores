@@ -45,3 +45,15 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+*.suo
+*.pdb
+
+bin
+obj
+packages
+
+
+\.vs/WpfApplication3/v14/
+
+.DotSettings
+.user
